@@ -13,6 +13,7 @@ Doctor.destroy_all
 Patient.destroy_all
 Appointment.destroy_all
 City.destroy_all
+Speciality.destroy_all
 
 #On créé 2 villes
 2.times do 
@@ -20,18 +21,31 @@ City.destroy_all
 end
 puts "2 villes ont été créées"
 
+#On créé 5 spécialités
+5.times do
+	Speciality.create(name: Faker::Job.title)
+end
+puts "5 spécialités ont été créées"
+
 # On créé 5 docteurs
 5.times do 
-	Doctor.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speciality: Faker::Job.title, city:City.order("RANDOM()").first)
+	Doctor.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, city:City.order("RANDOM()").first)
 end
 puts "5 docteurs ont été créés"
+
+#On créé 2 spécialités par médecins
+Doctor.all.each do |doc|
+	2.times do
+		JoinTableSpecialityDoctor.create(doctor: doc, speciality: Speciality.order("RANDOM()").first)
+	end
+end
+puts "2 spécialités ont été attribuées à tous les docs"
 
 # On créé 10 patients
 10.times do 
 	Patient.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, city:City.order("RANDOM()").first)
 end
 puts "10 patients ont été créés"
-
 
 # On créé 50 RDV 
 50.times do 
