@@ -12,24 +12,29 @@ require 'faker'
 Doctor.destroy_all
 Patient.destroy_all
 Appointment.destroy_all
+City.destroy_all
 
+#On créé 2 villes
+2.times do 
+	City.create(name: Faker::HarryPotter.location)
+end
+puts "2 villes ont été créées"
 
 # On créé 5 docteurs
-
 5.times do 
-	Doctor.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speciality: Faker::Job.title )
+	Doctor.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, speciality: Faker::Job.title, city:City.order("RANDOM()").first)
 end
 puts "5 docteurs ont été créés"
 
 # On créé 10 patients
 10.times do 
-	Patient.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+	Patient.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, city:City.order("RANDOM()").first)
 end
 puts "10 patients ont été créés"
 
 
 # On créé 50 RDV 
 50.times do 
-	Appointment.create(doctor: Doctor.order("RANDOM()").first ,patient: Patient.order("RANDOM()").first)
+	Appointment.create(doctor: Doctor.order("RANDOM()").first ,patient: Patient.order("RANDOM()").first, city:City.order("RANDOM()").first)
 end
 puts "50 RDV ont été créés"
